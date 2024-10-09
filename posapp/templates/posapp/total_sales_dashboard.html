@@ -1,0 +1,83 @@
+{% extends "posapp/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="{% static 'images/logo.png' %}" alt="" width="72" height="57">
+            <h2>Kusina ni Pedro - Total Sales Dashboard</h2>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-12">
+                <h4 class="mb-3">Filter by Date</h4>
+                <form method="GET" action="{% url 'posapp:sales_dashboard' %}">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" name="start_date" placeholder="Start Date"
+                            value="{{ request.GET.start_date }}">
+                        <input type="date" class="form-control" name="end_date" placeholder="End Date"
+                            value="{{ request.GET.end_date }}">
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                    </div>
+                </form>
+
+                <h4 class="mb-3">Total Sales Summary</h4>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Revenue</h5>
+                        <h2 class="card-text">PHP {{ total_revenue|floatformat:2 }}</h2>
+                    </div>
+                </div>
+
+                <h4 class="mb-3">Sales by Date</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                            <th>Number of Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sale in sales_by_date %}
+                        <tr>
+                            <td>{{ sale.order_id__order_date|date:"M d, Y" }}</td>
+                            <td>PHP {{ sale.total_amount|floatformat:2 }}</td>
+                            <td>{{ sale.order_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h4 class="mb-3">Product Sold</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity Sold</th>
+                            <th>Total Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sale in sales_by_date %}
+                        <tr>
+                            <td>{{ sale.item_id__item_name }}</td>
+                            <td>{{ sale.order_count }}</td>
+                            <td>PHP {{ sale.total_amount|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; Kusina ni Pedro</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="{% url 'posapp:item_list' %}">Configure Items</a></li>
+        </ul>
+    </footer>
+</div>
+{% endblock %}

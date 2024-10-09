@@ -1,0 +1,66 @@
+{% extends "posapp/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+<style>
+    .header {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .formContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+</style>
+
+<h1 class="header">Update Items</h1>
+
+<div class="formContainer">
+    <form method="post">
+        {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Stock Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item_id, form in item_forms.items %}
+                    <tr>
+                        <td>{{ form.instance.id }}</td>
+                        <td>{{ form.item_name }}</td>
+                        <td>{{ form.item_price }}</td>
+                        <td>{{ form.stock_quantity }}</td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" name="submit_{{ item_id }}">Update</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="buttonContainer">
+            <button type="submit" class="btn btn-success">Update All</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

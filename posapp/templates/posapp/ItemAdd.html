@@ -1,0 +1,61 @@
+{% extends "posapp/base.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% block styles %}
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
+
+<style>
+.header {
+    text-align: center;
+    margin-top:1rem;
+    /*margin-bottom:1rem;*/
+}
+
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85vh;
+    margin-top: 2rem;
+}
+
+
+.formGroup {
+    /*position: relative;*/
+    padding-bottom: 100px;
+}
+
+.buttonContainer {
+    /*position: absolute;*/
+    margin-top: 5rem;
+    right: 0;
+}
+
+</style>
+
+{% endblock %}
+
+<h1 class="header">Add Item</h1>
+
+    <div class="formContainer">
+        <div class="formGroup">
+            <form action="" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <div class="buttonContainer">
+
+                        <a type="button" class="btn btn-danger" href="{% url 'posapp:item_list' %}">Cancel</a>
+
+                        <button type='submit' class='btn btn-primary'>Submit</button>
+
+                    </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}
