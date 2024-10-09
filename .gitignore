@@ -131,4 +131,3 @@ dmypy.json
 
 # Django collected static files
 static/
-staticfiles/
